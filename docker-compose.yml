@@ -1,0 +1,30 @@
+# Specify the Version. Version 3 is the latest/best.
+version: '3'
+
+# List the services (containers) that will be ran during this docker compose initiation
+services:
+  # Name the service (container)
+  web: 
+    build: 
+      # Context indicates where all the files and folders will be pulled from
+      # The "." indicates the local directory the compose file is run from
+      context: .
+      # Define the dockerfile you want to use
+      dockerfile: Dockerfile.dev
+    # Define port mapping. "-" indicates list. - <Local device port>:<container port>
+    ports: 
+      - "3000:3000"
+    volumes:
+      # This tells docker compose to not map a folder against the specified directory
+      - /home/node/app/node_modules
+      # The next format is <local device directory>:<container directory>
+      # The "." indicates the local directory the compose file is run from
+      - ~/frontend:/home/node/app
+  tests: 
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /home/node/app/node_modules
+      - ~/frontend:/home/node/app
+    command: ["npm", "run", "test"]
