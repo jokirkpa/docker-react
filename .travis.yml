@@ -1,0 +1,19 @@
+# Any time you make use of docker, Super user prvileges are required
+# This command tells travis to use Sudo priv
+sudo: required
+
+# We need to tell travis to install a copy of docker in our running container
+services:
+  - docker
+
+# We need to tell travis to build a docker container using the Dockerfile.dev
+# Optionally you can tag "-t" the name of the container
+# Remember that we need to force "-f" a Dockerfile when it ends in a .dev
+before_install:
+  - docker build -t jokirkpa/docker-react -f Dockerfile.dev .
+
+# The script will hold the commands needed to tell travis how to run the test suit
+# With the -e "environment variable", we set CI=true. This forces the NPM test to
+# run and quite after. Otherwise the test would hang, waiting for user input
+Script:
+ - docker run -e CI=true jokirkpa/docker-react npm run test
