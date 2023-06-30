@@ -1,19 +1,32 @@
-# Any time you make use of docker, Super user prvileges are required
-# This command tells travis to use Sudo priv
 sudo: required
 
-# We need to tell travis to install a copy of docker in our running container
 services:
   - docker
 
-# We need to tell travis to build a docker container using the Dockerfile.dev
-# Optionally you can tag "-t" the name of the container
-# Remember that we need to force "-f" a Dockerfile when it ends in a .dev
 before_install:
   - docker build -t jokirkpa/docker-react -f Dockerfile.dev .
 
-# The script will hold the commands needed to tell travis how to run the test suit
-# With the -e "environment variable", we set CI=true. This forces the NPM test to
-# run and quite after. Otherwise the test would hang, waiting for user input
-Script:
+script:
  - docker run -e CI=true jokirkpa/docker-react npm run test
+
+# This will tell Travis CI how to take an application and deploy it to aws
+# With "provider" specify elasticbeanstalk as the provider
+# With "region" we specify the region, that the elastic beanstalk app was created in
+# With "app" we specify the name of the app
+# With "env" we specify the environment name
+# With "bucket_name" we provide a name of the bucket, that travis CI places a ZIP into
+# buckets are generated in the S3 service
+# The "bucket_path" is the "app" name as well
+# when the specify anytime we push, we push to branch master "on"
+# Lastly we add the access and secret key, we saved in Travis CI
+ deploy: 
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "docker-react-env"
+  bucket_name: "elasticbeanstalk-us-east-1-295854318539"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
