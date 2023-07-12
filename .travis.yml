@@ -21,10 +21,10 @@ script:
 # Lastly we add the access and secret key, we saved in Travis CI
  deploy: 
   provider: elasticbeanstalk
-  region: "us-east-1"
-  app: "docker-react"
-  env: "docker-react-env"
-  bucket_name: "elasticbeanstalk-us-east-1-295854318539"
+  region: "us-east-2"
+  app: "docker-react-01"
+  env: "Docker-react-01-env"
+  bucket_name: "elasticbeanstalk-us-east-2-295854318539"
   bucket_path: "docker-react"
   on:
     branch: master
