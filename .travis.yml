@@ -25,7 +25,7 @@ script:
   app: "docker-react-01"
   env: "Docker-react-01-env"
   bucket_name: "elasticbeanstalk-us-east-2-295854318539"
-  bucket_path: "docker-react"
+  bucket_path: "docker-react-01"
   on:
     branch: master
   access_key_id: "$AWS_ACCESS_KEY"
