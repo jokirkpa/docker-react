@@ -11,6 +11,7 @@ RUN npm run build
 
 # Run Phase
 FROM nginx
+EXPOSE 80
 # Here we can specify that we want to copy from the predefined builder phase
 # We then specify the build directory of node, and palce it into the html 
 # directory of nginx
